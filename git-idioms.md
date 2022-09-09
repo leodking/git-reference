@@ -48,6 +48,28 @@ In this example, all commits except for `A` have a parent. A does not have a par
 
 Remember: time moves from left-to-right, but commits always point to their parents (from right-to-left)
 
+### Branches / Tags / References
+
+You don't need to fully appreciate what a "branch", "tag" or "reference" is at this point. The important thing to note is that tutorials will typically show Git commits in a graphical format, going either left-to-right, or top-to-bottom. In the left-to-right example, the format will usually show a branch, tag or some other kind of reference coming off either the top or the bottom of a commit. For example:
+
+```
+A <-- B <-- C
+            |
+          main
+```
+
+This is a graphical representation of a Git repository with three commits. The label `main` is pointing to commit `C`, indicating that the `main` branch ends with commit C.
+
+Because a commit can have multiple branches (or tags, or other references like `HEAD`), these labels are often stacked on top of each other, like this:
+
+```
+A <-- B <-- C
+            |
+          main
+            |
+          HEAD
+```
+
 ## The three areas / The three trees / The three worlds
 
 In Git tutorials you'll typically hear people talk about "The Three Areas". These are in a sense, three "states" that your code has to go through before it can become a "commit" (a fixed version) in your repository. These are:
