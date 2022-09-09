@@ -48,7 +48,15 @@ In this example, all commits except for `A` have a parent. A does not have a par
 
 Remember: time moves from left-to-right, but commits always point to their parents (from right-to-left)
 
-## Working directory / Worktree / Working copy
+## The three areas / The three trees / The three worlds
+
+In Git tutorials you'll typically hear people talk about "The Three Areas". These are in a sense, three "states" that your code has to go through before it can become a "commit" (a fixed version) in your repository. These are:
+
+1. The working directory <- The current version of your code
+2. Staging area <- A version of your code that you would like to put into a commit
+3. Repository <- A database containing all "commits" or versions of your code
+
+### Working directory / Worktree / Working copy
 
 This is another term with several confusing synonyms. Your "working directory", or "worktree", or "working copy", is the version of your code that you are currently working on. For example, if you are making a website, you might have a `website` directory with several files under it, like this:
 
@@ -84,7 +92,42 @@ website
 
 And so on. All of this is contained within your "worktree" or "working directory". The term "working directory" refers to all files and directories within the top-level directory (e.g. `website` in this example.)
 
-## Index / Staging area / Cache
+### Index / Staging area / Cache (and what a "commit" is)
+
+These are all terms for the exact same thing. I know, lovely and confusing. Probably the most common term you'll hear is the "staging area". To understand the staging area, you might need to understand a bit more about what a commit is.
+
+We've already said that a commit is a "version of your repository" above. But it's not necessarily every single file and directory in your repository. When you create a new Git repository, Git will only care about the files that you tell it to care about. So if you have a directory with 1,000 files, it won't keep track of those 1,000 files until you create a commit with all of those files in it.
+
+This is where the staging area comes in. It's an intermediate step between your working directory and a commit.
+
+Let's say I create a repository for my website project, and add two files: `index.html`, and `style.css`. Imagine I want to create a commit with only the HTML page in it. I can do that using the commands:
+
+```
+git add index.html
+```
+
+Now what I have done is add `index.html` to the "staging area". This means that if I type `git commit`, this file and this file only will go into a commit, or a "version" of my website project, and be stored in the repository:
+
+```
+# This creates a new commit containing the file index.html
+git commit
+```
+
+Let's say I want to create a commit with both files in it now. To do that, I do:
+
+```
+# Add style.css to the "staging area" and prepare a new commit
+git add style.css
+
+# Create the commit and store it on the repository
+git commit
+```
+
+Summary: the purpose of the staging area is to **prepare a new commit to be stored safely in your repository**.
+
+### Repository / Repo / Local repository
+
+We already covered what a repository is above, but it's worth expanding on how the repository fits into this model. When you add files to the staging area using `git add`, you then create a commit which contains those files using `git commit`. Now you have a "commit", or a discrete version of your files at one point in time. You can make any changes you like to your files. In the example above, you can modify and even delete `index.html` and `style.css` from your working directory - it doesn't matter. Git has saved your files into a commit, and can easily recover them for you and insert them back into your working directory at a moment's notice.
 
 ## HEAD
 
