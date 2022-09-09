@@ -1,0 +1,95 @@
+# Git idioms
+
+Git has a reputation for being confusing. Why use one word for something when it could use three words to refer to the same thing, after all? Here are common terms used in Git and their meanings.
+
+## Repository / Repo
+
+A repository is a directory (or folder) containing all of the files and sub-directories in your project. Typically code projects are stored in repositories, but you don't have to use them to store code. For example, this is a repository containing mostly Markdown files (.md).
+
+One way to think about a repository ('repo' for short) is in comparison to tools like Google Docs, which stores separate versions of your files. At any point you can "go back" to a previous version of your document, because it's stored in the history. A repository is like this, with a crucial difference: instead of storing the difference between one file over time, it stores the differences between multiple files over time. You can still use your Git repository to switch between different versions of your file collection at any time.
+
+Despite what I just said about repositories not only being for code, for clarity and brevity I'm going to refer to the contents of a repository as "code" or a "code-base" from here on out. It's just simpler, because that's the most common use-case of using Git for version control - to track changes in a code-base within a single repository.
+
+## Snapshot / Commit
+
+"Commit" is a somewhat confusing term in Git, which is usually explained by the term "snapshot" as if that clarifies everything. "A commit is a snapshot of your code at one moment in time" might be a typical definition.
+
+What this means in practice is: a commit is a complete, independent version of all of the files in your repository at any one time. In other version control systems, your files might only be stored once, and every time you create a new "version" of your repository, that "version" will simply point back to the first version of your file if nothing has changed. In Git however, each time you make a commit, a new copy of your files is stored again. (Kind of. It's a little more complicated tha this in reality, but this will do for now.)
+
+So one way you can think of a commit is like a "version". It's commonly referred to as a "snapshot" because it's like a photograph in your family photo album. If you take a family photo each year, and one year dad is wearing a green jumper, the next year mum has slightly greyer hair etc., you're still taking a photo of the whole family every time. It's not as if you'll write down on one page "Dad wore a different jumper, mum looks the same as last year." That's the difference between the way Git stores commits, using "snapshots", compared to the way other version control systems handle commits (as "changesets")
+
+## Parent / Root commit / Commit timeline
+
+The first thing to say about a commit is, when we are discussing how Git works in an abstract way, we typically don't care what a commit actually "is". In Git tutorials, people will typically use a single letter, number or symbol to represent a commit, like this:
+
+```
+A
+```
+
+Where `A` could mean anything from this ...
+
+```
+myfolder
+|- some-text-file.txt
+`- README.md
+```
+
+... to the entire Linux kernel. It doesn't matter what it is, it's just a useful abstraction that helps us understand that commits exist and are separate from one another.
+
+The second thing to say about a commit is that every commit (except the first one) has a **parent**. This means the commit that came immediately before it. Each commit contains a pointer to its parent.
+
+For that reason, when we're talking about Git commits we typically draw a timeline which goes from left-to-right, although we often draw arrows going from right-to-left. This can seem confusing at first. In the example below, there are four commits. `A` is the first, then `B`, then `C`, then `D` last. Commit `B` has an arrow pointing left to commit `A`, which indicates that `A` is the parent of `B`.
+
+```
+A <-- B <-- C <-- D
+```
+
+In this example, all commits except for `A` have a parent. A does not have a parent, because it is the **root commit**
+
+Remember: time moves from left-to-right, but commits always point to their parents (from right-to-left)
+
+## Working directory / Worktree / Working copy
+
+This is another term with several confusing synonyms. Your "working directory", or "worktree", or "working copy", is the version of your code that you are currently working on. For example, if you are making a website, you might have a `website` directory with several files under it, like this:
+
+```
+website
+|- index.html
+|- style.css
+`- script.js
+```
+
+While you're working on these files and before you've created any "commits" using Git, this is your working directory.
+
+It's also called a "worktree" because the top-level directory can also contain many nested sub-directories. For this reason your directory can look like a "tree" in the mathematical / computer science meaning, or a data structure with many branches. Like so:
+
+```
+website
+|- css-scripts
+|   |- mainpage.css
+|   `- style.css
+|- html
+|   |- landing-page
+|   |   `- welcome.html
+|   |- product-page
+|   |   `- product.html
+|   `- shopping-cart
+|       `- cart.html
+`- javascript
+    |- shopping-scripts
+    |   `- script.js
+    `- other-scripts
+        `- script.js
+```
+
+And so on. All of this is contained within your "worktree" or "working directory". The term "working directory" refers to all files and directories within the top-level directory (e.g. `website` in this example.)
+
+## Index / Staging area / Cache
+
+## HEAD
+
+The HEAD is a pointer for the latest commit in a repository.
+
+## Branch / Pointer / Reference
+
+## Unmodified / Modified / Staged / Committed
