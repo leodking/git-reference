@@ -3,10 +3,10 @@
 | Command                        | Equivalent form                | Effect                                                                               |
 | ------------------------------ | ------------------------------ | ------------------------------------------------------------------------------------ |
 | `git diff`                     | `git diff <INDEX> <WORKTREE>`  | Show what changes I've made since you last staged anything (using `git add`)         |
-| `git diff <commit>`            | `git diff <commit> <WORKTREE`> | Show the difference between my working directory and a commit                        |
-| `git diff HEAD`                | `git diff HEAD WORKTREE`       | Show the difference between working directory and current commit (as above)          |
+| `git diff <commit>`            | `git diff <commit> <WORKTREE>` | Show the difference between my working directory and a commit                        |
+| `git diff HEAD`                | `git diff HEAD <WORKTREE>`       | Show the difference between working directory and current commit (as above)          |
 | `git diff --cached`            | `git diff HEAD <INDEX>`        | Show what changes will go into the next commit                                       |
-| `git diff --cached <commit>`   | `git diff <commit> INDEX`      | Show the difference between what's currently staged and a given commit (less useful) |
+| `git diff --cached <commit>`   | `git diff <commit> <INDEX>`      | Show the difference between what's currently staged and a given commit (less useful) |
 | `git diff <commit1> <commit2>` | `git diff <commit1> <commit2>` | Show what's changed from commit1 to commit2                                          |
 | `git diff <commit1> <commit2> -- <file>` | `git diff <commit1> <commit2>  -- <file>` | Show the difference between one file on multiple branches. May need to be a full path  |
 
