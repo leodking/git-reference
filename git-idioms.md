@@ -14,9 +14,12 @@ Despite what I just said about repositories not only being for code, for clarity
 
 "Commit" is a somewhat confusing term in Git, which is usually explained by the term "snapshot" as if that clarifies everything. "A commit is a snapshot of your code at one moment in time" might be a typical definition.
 
-What this means in practice is: a commit is a complete, independent version of all of the files in your repository at any one time. In other version control systems, your files might only be stored once, and every time you create a new "version" of your repository, that "version" will simply point back to the first version of your file if nothing has changed. In Git however, each time you make a commit, a new copy of your files is stored again. (Kind of. It's a little more complicated tha this in reality, but this will do for now.)
+What this means in practice is: a commit is a complete, independent version of all of the files in your repository at any one time. In other version control systems, your files might only be stored once, and every time you create a new "version" of your repository, that "version" will simply point back to the first version of your file if nothing has changed. This is known as "changeset-based version control", or "delta-based version control". Git is "snapshot-based version control", and this means that each time you make a commit, a new copy of your files is stored again. (Kind of. It's a little more complicated tha this in reality, but this will do for now.)
 
-So one way you can think of a commit is like a "version". It's commonly referred to as a "snapshot" because it's like a photograph in your family photo album. If you take a family photo each year, and one year dad is wearing a green jumper, the next year mum has slightly greyer hair etc., you're still taking a photo of the whole family every time. It's not as if you'll write down on one page "Dad wore a different jumper, mum looks the same as last year." That's the difference between the way Git stores commits, using "snapshots", compared to the way other version control systems handle commits (as "changesets")
+So one way you can think of a commit is like a "version". It's commonly referred to as a "snapshot" because it's like a photograph in your family photo album. If you take a family photo each year, and one year dad is wearing a green jumper, the next year mum has slightly greyer hair etc., you're still taking a photo of the whole family every time. It's not as if you'll write down on one page "Dad wore a different jumper, mum looks the same as last year." That's the difference between storing commits as "snapshots" versus "changesets"
+
+This page from the Pro Git Book clarifies the difference between snapshots and changesets with some nice diagrams:
+https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F
 
 ## Parent / Root commit / Commit timeline
 
@@ -48,7 +51,7 @@ In this example, all commits except for `A` have a parent. A does not have a par
 
 Remember: time moves from left-to-right, but commits always point to their parents (from right-to-left)
 
-### Branches / Tags / References
+### Graphical view of branches / tags / references
 
 You don't need to fully appreciate what a "branch", "tag" or "reference" is at this point. The important thing to note is that tutorials will typically show Git commits in a graphical format, going either left-to-right, or top-to-bottom. In the left-to-right example, the format will usually show a branch, tag or some other kind of reference coming off either the top or the bottom of a commit. For example:
 
@@ -155,6 +158,85 @@ We already covered what a repository is above, but it's worth expanding on how t
 
 The HEAD is a pointer for the latest commit in a repository.
 
-## Branch / Pointer / Reference
+## SHA-1 / SHA / Hash / Commit ID
+
+"SHA-1" stands for "Secure Hash Algorithm 1". It is a "cryptographic hash function". If you don't know what this means you don't really need to: the short story is that, given an input string, it will output a string of digits in hexadecimal, which is rendered as 40 characters.
+
+"Hexadecimal" is a representation of a number in base-16 instead of the usual base-10, which means that each digit in a number goes from 0-9, and then A-F. So for example the hexadecimal number F is 15 in decimal; 10 in hexadecimal is 16 in decimal, and so on.
+
+Because of this, SHA-1 hashes may look like strings of random characters, e.g.:
+
+```
+0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33
+```
+
+But importantly, they are **not random**. If you give the same input to a SHA-1 algorithm, it will give you the same output every time. This output is usually simply known as a "hash" or "SHA", which is short for "SHA-1" hash. We can test this in a Linux terminal like below:
+
+```bash
+# The following command will convert "foo" into a hash using SHA-1
+$ echo -n foo | sha1sum
+0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33  -
+
+# And it will do the same thing every single time
+$ echo -n foo | sha1sum
+0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33  -
+
+# But if we change the input string we get something completely different
+$ echo -n moo | sha1sum
+24a56b37819e0452df9c07432e5dd2e2b5cebf48  -
+```
+
+The point of a hashing algorithm is that (at least in theory) it's one-way. You can generate hash from a string input, but you can never reconstruct the string input from the same hash. And because of the above principle that **the same input will always generate the same hash**, Git can use hashes to easily check if anything has changed in your repository. For example, each of your files in the repository will be referenced using a SHA-1 hash. If you change the file even by one character, the hash will change too, and Git will know that you have made a change. (See the discussion about the object model for more information on this).
+
+Note that there are other SHA algorithms, such as SHA-2, SHA-3 and SHA-256. The SHA-1 algorithm is actually considered to be "broken", meaning that a well-funded hacker could potentially break the algorithm. For that reason, Git is currently transitioning to the SHA-256 algorithm, which is much more secure (and also produces a longer hash string).
+
+In Git terminology, you will usually hear the terms "SHA", "SHA-1", "hash", "id", and these are all referring to the same thing: the 40-character string representing a commit, blob or tree object.
+
+## The object model / Object database / Blob, tree, commit, reference
+
+This is an important thing to understand in Git, but it is also quite helpful. Basically, read this: https://github.blog/2020-12-17-commits-are-snapshots-not-diffs/
+
+The essence is that Git is an **object database**. This might sound complicated, but what Git boils down to is nothing fancier than a list of key-value pairs, like an associative array (dictionary in Python, hash map, hash table and other terms in other languages).
+
+- The "key" is a SHA hash as we have discussed in the previous section.
+- The "value" is the contents that you are storing, which could be a file, a commit, or a tree (more on this shortly)
+
+These two resources explain this very well, especially the first one:
+- https://github.blog/2020-12-17-commits-are-snapshots-not-diffs/
+- https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+
+It boils down to this. In Git, there are basically three types of **object** that can be stored in the **object database**:
+1. Blob - This stands for "Binary Large Object", but what it basically amounts to is a single file in your Git repository
+2. Tree - This is a list of files and directories - actually it is just a list of blobs and trees.
+3. Commit - This represents a "snapshot" of your code at one point in time.
+
+It starts with **blobs**. A blob is an encrypted form of a file, which your Git repository knows about. Git doesn't know the name of your file; this is recorded using a "tree".
+
+Then **trees** are used to store the directory structure of your project. One tree only stores one "level" of hierarchy. For example if you have a nested folder, the first tree will show every file in the top-level directory as a "blob", and every directory as another "tree" object. Then if you were to open each tree object, you would see that it, too, contains a list of blobs and trees. In this way, you can store the contents of a repository using only blobs and trees.
+
+Lastly, **commits**. A commit represents your repository at one point in time, and so all it boils down to is a pointer to a "tree", which in turn points to all of your code files in the state they were in when you committed them. A commit also contains information about the author and committer of a commit, the date it was committed, and the commit message provided.
+
+Each of these objects are stored in the object database using a **SHA-1** hash as the key. The value is the contents itself. For example, a "blob" (single file) will have a SHA-1 hash or ID. That ID is the "key" to access the contents of that file. You can verify this by using the `git cat-file -p` command on a blob ID to see its contents:
+
+```bash
+# Where "abc1234..." is the hash of a blob in your Git repository
+$ git cat-file -p abc1234...
+```
+
+## Branch / Tag / Pointer / Reference
+
+If you've absorbed the above section, remember that Git is an object database which consists of three types of objects: a "blob" (file) "tree" (listing of a single directory) and "commit" (pointer to a tree representing your repo at one point in time, plus metadata).
+
+You might know that Git has "branches", and think that this must introduce some extra complicated object into Git's object model. But no, branches are surprisingly simple. A branch is just a single file containing the SHA hash of a commit. It is a "pointer", also known as a "reference". This is why branches in Git are really fast and cheap to create and destroy - they're ultimately just a single file containing 40 characters and a line return. When you make another commit on a "Branch", the branch pointer will then move to the new commit.
+
+Tags are similar. A tag is a "fixed" name for a commit, meaning that if you run "git commit" after giving a commit a tag name, the tag will not move or change. But the underlying principle of a tag is the same: it's a pointer to a particular commit. The only difference between tags and branches is in usage - tags are used generally for fixed versions, e.g. for a major release like "v1.0.0". Branches are meant to track commits along different stages of development, so you might have something like the `main` branch (formerly called `master`), and you might create branches like `feature`, `experiment`, `bugfix`, `hotfix`, or `whatever-the-heck-I-want`.
+
+So a reference, such as a branch or tag, ultimately is a pointer to a commit. And remember that a commit is ultimately a pointer to a tree, or the state of your repository at one point in time. And trees point to files. Putting all of that together, you could think of it like this:
+
+```
+branch/tag --> commit --> tree --> blobs
+```
+
+A very useful resource which explains the principles behind references, Git commits, and the commit graph in more detail: http://think-like-a-git.net/
 
 ## Unmodified / Modified / Staged / Committed
