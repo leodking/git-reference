@@ -154,10 +154,6 @@ Summary: the purpose of the staging area is to **prepare a new commit to be stor
 
 We already covered what a repository is above, but it's worth expanding on how the repository fits into this model. When you add files to the staging area using `git add`, you then create a commit which contains those files using `git commit`. Now you have a "commit", or a discrete version of your files at one point in time. You can make any changes you like to your files. In the example above, you can modify and even delete `index.html` and `style.css` from your working directory - it doesn't matter. Git has saved your files into a commit, and can easily recover them for you and insert them back into your working directory at a moment's notice.
 
-## HEAD
-
-The HEAD is a pointer for the latest commit in a repository.
-
 ## SHA-1 / SHA / Hash / Commit ID
 
 "SHA-1" stands for "Secure Hash Algorithm 1". It is a "cryptographic hash function". If you don't know what this means you don't really need to: the short story is that, given an input string, it will output a string of digits in hexadecimal, which is rendered as 40 characters.
@@ -238,5 +234,58 @@ branch/tag --> commit --> tree --> blobs
 ```
 
 A very useful resource which explains the principles behind references, Git commits, and the commit graph in more detail: http://think-like-a-git.net/
+
+## HEAD
+
+"HEAD" can seem like a very confusing and mysterious term when you first encounter it. But if we've understood the above, then it should make a lot more sense: HEAD is just a **reference**. In particular, it's a reference to the **branch** that we're currently on. Remember that a branch points to a commit - so HEAD just points to the latest commit on our branch.
+
+It **does not** refer to the files that we're currently working on - which are in the "working directory" or "working tree" as discussed above. It also **does not** point to the contents of the index. In terms of the "three areas" we discussed before, "HEAD" belongs to the **local repository** area, because it points to a commit that is actually checked into your local repository.
+
+### Detached HEAD / What a branch "really is"
+
+Another confusing and (perhaps) unhelpful term for newcomers. When you do work in Git, you typically do work on a branch, such as the `main` branch. You can use the `git checkout` or `git switch` command to move to another branch, like this:
+
+```
+# Move to 'feature' branch
+$ git checkout feature
+
+# Move back to 'main' branch
+$ git checkout main
+```
+
+But you can also move to a commit that's earlier along on the same branch. To do this we can write `git checkout HEAD~1`, which means "Go back one commit from `HEAD`"
+
+```
+# Switch to the previous commit on the current branch
+$ git checkout HEAD~1
+Note: switching to 'HEAD~1'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+```
+
+And you get all of this strange advice about a "detached HEAD". All that means is that you're not currently "on a branch".
+
+This might sound confusing. After all, isn't a branch all of the commits that led up to your current commit? Actually, no. A "branch" is just a name for a particular commit. If you make some changes to your code and make a new commit, your branch will move onto a new commit. The old commit will no longer be "on" your branch. It's **reachable** from your branch, but the commit itself does not belong to a branch.
+
+Therefore, if you use `git checkout` or `git switch --detach` to move to a commit that doesn't have a branch pointing to it, Git will tell you that you are in a "detached HEAD" state.
+
+There's a very easy fix for this state - just move back to a commit that's on a branch:
+
+```
+git checkout main
+```
 
 ## Unmodified / Modified / Staged / Committed
