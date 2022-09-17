@@ -13,3 +13,11 @@ A note about the last one: `git reset [file]` will unstage a file because it's r
 
 ![image](https://user-images.githubusercontent.com/72651324/189367482-21d15018-b0ca-4e61-9b95-f12b6d12a1f3.png)
 Source: https://marklodato.github.io/visual-git-guide/index-en.html#reset
+
+## Why use each version of reset?
+
+### Soft reset
+
+A soft reset can actually be a very useful way of combining commits into one. This is because we can use it to update the working tree to a previous commit that we've done. Then we can add and commit the contents of that commit, and this will discard the previous commit.
+
+It's an alternative to squashing commits using `git rebase -i`
