@@ -31,3 +31,25 @@ $ git rev-parse main
 abc1234abc1234...
 ```
 https://stackoverflow.com/a/28249368/1907765
+
+## Viewing the contents of a Git object
+
+To view the contents of a `blob`, `tree`, or `commit` in the Git object database, just use `cat-file`:
+
+```bash
+# Use the -p option to print the object in a human-readable format
+$ git cat-file -p <hash>
+
+# E.g. if `abc1234` refers to a blob object:
+$ git cat-file -p abc1234
+Some file
+...
+
+# Use -t to get the type of an object
+$ git cat-file -t abc1234
+blob
+
+# And use -s to get the size of an object
+$ git cat-file -s abc1234
+1234
+```
