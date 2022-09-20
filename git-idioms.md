@@ -241,6 +241,44 @@ A very useful resource which explains the principles behind references, Git comm
 
 It **does not** refer to the files that we're currently working on - which are in the "working directory" or "working tree" as discussed above. It also **does not** point to the contents of the index. In terms of the "three areas" we discussed before, "HEAD" belongs to the **local repository** area, because it points to a commit that is actually checked into your local repository.
 
+### HEAD notation / HEAD~ / HEAD~1 / HEAD^1
+
+`HEAD~1` is a quirky notation that means "The parent commit of HEAD", or "Go one commit back from HEAD". Remember that HEAD points to the most-recent commit. So HEAD~1 means the second-most-recent commit.
+
+`HEAD~` is a shorthand for `HEAD~1`, as it is usually what you want to see.
+
+`HEAD~2` means "Go back two commits from HEAD" - and you can extrapolate this to go back any number of commits relative to `HEAD`.
+
+`HEAD^` and `HEAD^1` is a bit more complicated, and honestly I don't think I can explain it better than the linked StackOverflow answer at the bottom. In particular the graph below. The key takeaway is that using the caret `^` indicates the **nth parent of a commit**. Commits can have more than one parent - e.g. in the case of a merge, where two commits join into one. So when you want to indicate the first parent of a merge commit, use `HEAD^1`. To indicate the second parent, use `HEAD^2`. Again the graph explains this better.
+
+> Here is an illustration, by Jon Loeliger. Both commit nodes B and C are parents of commit node A. Parent commits are ordered left-to-right. (N.B. The `git log --graph` command displays history in the opposite order.)
+>
+>     G   H   I   J
+>      \ /     \ /
+>       D   E   F
+>        \  |  / \
+>         \ | /   |
+>          \|/    |
+>           B     C
+>            \   /
+>             \ /
+>              A
+>
+>     A =      = A^0
+>     B = A^   = A^1     = A~1
+>     C = A^2
+>     D = A^^  = A^1^1   = A~2
+>     E = B^2  = A^^2
+>     F = B^3  = A^^3
+>     G = A^^^ = A^1^1^1 = A~3
+>     H = D^2  = B^^2    = A^^^2  = A~2^2
+>     I = F^   = B^3^    = A^^3^
+>     J = F^2  = B^3^2   = A^^3^2
+
+What this shows is that 
+
+Source / Further reading: https://stackoverflow.com/a/2222920/1907765
+
 ### Detached HEAD / What a branch "really is"
 
 Another confusing and (perhaps) unhelpful term for newcomers. When you do work in Git, you typically do work on a branch, such as the `main` branch. You can use the `git checkout` or `git switch` command to move to another branch, like this:
