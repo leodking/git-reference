@@ -2,6 +2,9 @@
 
 Git has a reputation for being confusing. Why use one word for something when it could use three words to refer to the same thing, after all? Here are common terms used in Git and their meanings.
 
+## General useful sources:
+- [Git misconceptions](https://www.biteinteractive.com/picturing-git-conceptions-and-misconceptions/)
+
 ## Repository / Repo
 
 A repository is a directory (or folder) containing all of the files and sub-directories in your project. Typically code projects are stored in repositories, but you don't have to use them to store code. For example, this is a repository containing mostly Markdown files (.md).
@@ -326,4 +329,31 @@ There's a very easy fix for this state - just move back to a commit that's on a 
 git checkout main
 ```
 
-## Unmodified / Modified / Staged / Committed
+## Unmodified / Modified / Staged / Committed / "File status lifecycle"
+
+## Local branch / Remote branch / Remote-tracking branch
+
+Here is another area where Git terminology is **needlessly, horribly confusing**.
+
+In general, we have three things:
+
+1. Local branch - This is a branch that we work on locally, such as `main` or `feature` or `bugfix` or whatever else you call it.
+2. Remote branch - This branch exists on the **remote repository**, and you don't directly work on it
+
+So how do you synchronise between a local and remote branch? Using the third thing: a **remote-tracking branch**.
+
+3. Remote-tracking branch - A branch which stores the changes from the remote branch, from the last time you ran `git fetch` (or `git pull`)
+
+Basically a remote-tracking branch is a **copy of your remote branch**. But it doesn't stay up to date automatically - you have to do that yourself using `git fetch`, or `git pull` which does a `git fetch` combined with `git merge`. You can even have a remote-tracking branch which refers to a non-existent branch, if you delete the remote branch or change its name.
+
+Even more confusingly, the link between a local branch and a remote-tracking branch is also called **"tracking"**. So in summary;
+
+> A "local branch" tracks a "remote-tracking branch". A "remote-tracking branch" is simply a copy of the "remote branch" in the remote repository, which can be updated using `git fetch`.
+
+It's worth noting that because of this, there is actually nothing truly "remote" in your Git repository. Everything is done by syncing your local, remote-tracking and remote branches.
+
+Sources:
+- https://stackoverflow.com/a/18137512/1907765
+- https://www.biteinteractive.com/picturing-git-conceptions-and-misconceptions/
+
+
