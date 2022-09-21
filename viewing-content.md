@@ -53,3 +53,17 @@ blob
 $ git cat-file -s abc1234
 1234
 ```
+
+## Viewing special branches
+
+### All branches
+
+```
+git branch --all -vv
+```
+
+### Remote branches only
+
+```
+git branch -r
+```
