@@ -14,6 +14,13 @@ A note about the last one: `git reset [file]` will unstage a file because it's r
 ![image](https://user-images.githubusercontent.com/72651324/189367482-21d15018-b0ca-4e61-9b95-f12b6d12a1f3.png)
 Source: https://marklodato.github.io/visual-git-guide/index-en.html#reset
 
+## Resources
+
+- https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified
+- [Difference between Git reset and checkout](https://stackoverflow.com/questions/3639342/whats-the-difference-between-git-reset-and-git-checkout)
+- https://stackoverflow.com/questions/2530060/in-plain-english-what-does-git-reset-do
+- 
+
 ## Why use each version of reset?
 
 ### Soft reset
