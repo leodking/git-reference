@@ -331,6 +331,8 @@ git checkout main
 
 ## Unmodified / Modified / Staged / Committed / "File status lifecycle"
 
+[See my notes on the File Status Lifecycle](file-status-lifecycle.md)
+
 ## Local branch / Remote branch / Remote-tracking branch
 
 Here is another area where Git terminology is **needlessly, horribly confusing**.
