@@ -20,9 +20,9 @@
 -  [Article from Joel Spolsky](https://www.joelonsoftware.com/2010/03/17/distributed-version-control-is-here-to-stay-baby/) on why DVCS is great
 	- [Similar interesting article](https://www.joelonsoftware.com/2001/12/11/back-to-basics/) about how strings work
 	- And one about the [Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/)
-
 - Content addressable storage (CAS) in Git - i.e. Git uses a cryptographic key-value-based object store to store all content. It's not file-address-based, all objects are converted into hashes and compared to one another for simplicity.
 	- [What are the benefits of CAS](https://stackoverflow.com/questions/65199783/what-are-the-benefits-of-content-based-addressing-in-git)
+ - Reinventing the Git interface - https://tonsky.me/blog/reinventing-git-interface/
 
 **High level problems with Git**
 - Greg Szorc's [insightful article on the subject](https://gregoryszorc.com/blog/2017/12/11/high-level-problems-with-git-and-how-to-fix-them/)
