@@ -1,0 +1,1 @@
+	for i in $(find .git/objects/ -maxdepth 1 -not -name "info" -not -name "pack"); do find $i/* | wc -l; done > numobjects
