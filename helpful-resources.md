@@ -7,7 +7,7 @@
 - [Why Git is so hard - Places, Content, Branches, Remote models](http://merrigrove.blogspot.com/2014/02/why-heck-is-git-so-hard-places-model-ok.html)
   - This explains neatly the mental models you need to understand in order to grok Git
 - https://dev.to/g_abud/advanced-git-reference-1o9j - "Git concepts I wish I knew years ago"
-- https://github.blog/2020-12-17-commits-are-snapshots-not-diffs/ - This website neatly explains Git internals (blobs, hashes etc.)
+- [Think Like a Git](http://think-like-a-git.net/sections/experimenting-with-git/references-make-commits-reachable.html)
 - https://tom.preston-werner.com/2009/05/19/the-git-parable.html - **The Git Parable**
  
 ## Quick references
