@@ -27,7 +27,12 @@
 - "The Pro Git Book", Chacon and Straub, [published online](http://book.git-scm.com/book/en/v2).
   - https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain - The Pro Git chapter on the Git internals. I didn't find this easy to digest.
 - https://stackoverflow.com/questions/315911/git-for-beginners-the-definitive-practical-guide?rq=1 - A definitive StackOverflow guide
-- 
+
+## My own notes (helpfulness not guaranteed)
+- [Cheatsheet for the different modes of `git reset`](https://github.com/leodking/git-reference/blob/main/reset-cheatsheet.md)
+- [Cheatsheet for `git diff`](https://github.com/leodking/git-reference/blob/main/reset-cheatsheet.md)
+- [What the different file states mean](https://github.com/leodking/git-reference/blob/main/file-status-lifecycle.md) (untracked/tracked/staged/modified)
+- [Git idioms](https://github.com/leodking/git-reference/blob/main/git-idioms.md) - A glossary of all of Git's wonderfully confusing terminology
 
 ## Git merge
 - [Understanding Git merge](https://www.biteinteractive.com/understanding-git-merge/)
